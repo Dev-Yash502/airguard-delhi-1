@@ -1,0 +1,53 @@
+from flask import Flask, jsonify, request
+
+app = Flask(__name__)
+
+# Area-wise dummy AQI data (Delhi)
+AREA_AQI = {
+    "Anand Vihar": 380,
+    "Dwarka": 220,
+    "Rohini": 260,
+    "South Delhi": 180,
+    "North Delhi": 240
+}
+
+# Suggestions based on AQI level
+SUGGESTIONS = {
+    "Green": [
+        "Air quality is safe",
+        "Outdoor activities are allowed"
+    ],
+    "Yellow": [
+        "Sensitive people should be careful",
+        "Limit outdoor activities"
+    ],
+    "Red": [
+        "Wearing an N95 mask is strongly recommended",
+        "Avoid outdoor activities as much as possible",
+        "Children and elderly should stay indoors"
+    ]
+}
+
+def get_category(aqi):
+    if aqi <= 100:
+        return "Green"
+    elif aqi <= 200:
+        return "Yellow"
+    else:
+        return "Red"
+
+@app.route("/predict")
+def predict():
+    area = request.args.get("area", "Delhi")
+    aqi = AREA_AQI.get(area, 250)
+    category = get_category(aqi)
+
+    return jsonify({
+        "area": area,
+        "aqi": aqi,
+        "category": category,
+        "suggestions": SUGGESTIONS[category]
+    })
+
+if __name__ == "__main__":
+    app.run(debug=True)
