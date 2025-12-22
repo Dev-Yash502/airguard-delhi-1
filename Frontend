@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AirGuard Delhi</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-50">
+
+  <div class="max-w-md mx-auto px-4 py-6">
+
+    <!-- Header -->
+    <div class="flex items-center gap-3 mb-6">
+      <div class="bg-emerald-100 p-2 rounded-xl">🌬️</div>
+      <div>
+        <h1 class="text-xl font-bold">AirGuard Delhi</h1>
+        <p class="text-sm text-gray-500">Prediction • Prevention • Protection</p>
+      </div>
+    </div>
+
+    <!-- STEP 1: Location -->
+    <div class="bg-white rounded-2xl shadow p-4 mb-6">
+      <h2 class="font-semibold mb-3">📍 Step 1: Select Your Area</h2>
+
+      <select id="areaSelect"
+        class="w-full border rounded-xl p-3 text-gray-700">
+        <option value="">Choose your area</option>
+        <option>Anand Vihar</option>
+        <option>Dwarka</option>
+        <option>Rohini</option>
+        <option>South Delhi</option>
+        <option>North Delhi</option>
+      </select>
+
+      <p class="text-xs text-gray-500 mt-2">
+        We’ll personalize air quality insights for your location.
+      </p>
+
+      <button onclick="checkAQI()"
+        class="w-full mt-4 bg-emerald-500 text-white py-3 rounded-xl font-semibold">
+        Check air quality near me
+      </button>
+    </div>
+
+    <!-- STATUS BADGE -->
+    <div id="statusBadge"
+      class="hidden text-center mb-4 text-sm font-semibold px-4 py-2 rounded-full">
+    </div>
+
+    <!-- STEP 2: AQI STATUS -->
+    <div id="aqiSection"
+      class="hidden bg-white rounded-2xl shadow p-4 mb-6 transition-all">
+
+      <h2 class="font-semibold mb-4">📊 Step 2: Air Quality Status</h2>
+
+      <div id="greenBox"
+        class="rounded-xl p-4 mb-3 bg-emerald-50 text-emerald-700 opacity-30 transition">
+        <p class="text-sm">AQI 0–100</p>
+        <h3 class="font-bold">Safe</h3>
+        <p class="text-sm">Air quality is safe for outdoor activities</p>
+      </div>
+
+      <div id="yellowBox"
+        class="rounded-xl p-4 mb-3 bg-yellow-50 text-yellow-700 opacity-30 transition">
+        <p class="text-sm">AQI 101–200</p>
+        <h3 class="font-bold">Moderate</h3>
+        <p class="text-sm">Sensitive people should take precautions</p>
+      </div>
+
+      <div id="redBox"
+        class="rounded-xl p-4 bg-red-50 text-red-700 opacity-30 transition">
+        <p class="text-sm">AQI 201+</p>
+        <h3 class="font-bold">Dangerous</h3>
+        <p class="text-sm">Air quality is unhealthy today</p>
+      </div>
+    </div>
+
+    <!-- STEP 3: SUGGESTIONS -->
+    <div id="suggestionsSection"
+      class="hidden bg-white rounded-2xl shadow p-4 mb-6 transition-all">
+
+      <h2 class="font-semibold mb-4">💡 Step 3: Health & Safety Tips</h2>
+
+      <ul id="suggestions"
+        class="space-y-2 text-sm text-gray-700">
+      </ul>
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center text-xs text-gray-500 mt-8">
+      <p>AI-powered Air Pollution Awareness System</p>
+      <p class="mt-1">Team <b>Tech Busters</b></p>
+    </div>
+
+  </div>
+
+  <!-- JS -->
+  <script>
+    function resetAQI() {
+      ["greenBox","yellowBox","redBox"].forEach(id => {
+        document.getElementById(id).classList.remove(
+          "opacity-100","ring-2","ring-gray-400","scale-105"
+        );
+      });
+    }
+
+    function checkAQI() {
+      const area = document.getElementById("areaSelect").value;
+      if (!area) return;
+
+      document.getElementById("aqiSection").classList.remove("hidden");
+      document.getElementById("suggestionsSection").classList.remove("hidden");
+
+      const badge = document.getElementById("statusBadge");
+      badge.classList.remove("hidden");
+
+      const suggestions = document.getElementById("suggestions");
+      suggestions.innerHTML = "";
+
+      resetAQI();
+
+      let tips = [];
+
+      if (area === "Anand Vihar" || area === "Rohini") {
+        document.getElementById("redBox").classList.add("opacity-100","ring-2","ring-red-300","scale-105");
+        badge.className = "text-center mb-4 text-sm font-semibold px-4 py-2 rounded-full bg-red-100 text-red-700";
+        badge.innerText = "🔴 High Risk Today";
+
+        tips = [
+          "Wearing an N95 mask is strongly recommended",
+          "Avoid outdoor activities as much as possible",
+          "Children and elderly should stay indoors"
+        ];
+      }
+      else if (area === "Dwarka" || area === "North Delhi") {
+        document.getElementById("yellowBox").classList.add("opacity-100","ring-2","ring-yellow-300","scale-105");
+        badge.className = "text-center mb-4 text-sm font-semibold px-4 py-2 rounded-full bg-yellow-100 text-yellow-700";
+        badge.innerText = "🟡 Moderate Risk";
+
+        tips = [
+          "Limit prolonged outdoor exposure",
+          "Sensitive individuals should be careful",
+          "Keep medication handy if needed"
+        ];
+      }
+      else {
+        document.getElementById("greenBox").classList.add("opacity-100","ring-2","ring-emerald-300","scale-105");
+        badge.className = "text-center mb-4 text-sm font-semibold px-4 py-2 rounded-full bg-emerald-100 text-emerald-700";
+        badge.innerText = "🟢 Safe Today";
+
+        tips = [
+          "Air quality is good today",
+          "Outdoor activities are safe",
+          "Enjoy fresh air responsibly"
+        ];
+      }
+
+      tips.forEach(tip => {
+        const li = document.createElement("li");
+        li.innerText = "✔ " + tip;
+        suggestions.appendChild(li);
+      });
+    }
+  </script>
+
+</body>
+</html>
