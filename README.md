@@ -58,8 +58,7 @@ The solution focuses on **Prediction, Prevention, and Protection** to help users
 
 ## 🚀 MVP Deployment
 - Frontend deployed on **Netlify**  
-  🔗 **Live MVP:** [https://magical-cat-c6c226.netlify.app/)
-](https://magical-cat-c6c226.netlify.app/)
+  🔗 **Live MVP:** - https://magical-cat-c6c226.netlify.app/
 - Backend demonstrated locally for MVP
 - Demo video uploaded on **YouTube (Unlisted/Public)**
 
