@@ -50,9 +50,10 @@ The solution focuses on **Prediction, Prevention, and Protection** to help users
 ---
 
 ## 🌐 Google Technologies Used
-- Google Charts (planned for air quality visualization)
-- Google Maps Platform (planned for location-based AQI mapping)
 
+- Google Charts – Used to visualize Air Quality Index (AQI) data in graphical form for better user understanding.
+- Google Maps Platform (Planned) – To enable location-based AQI mapping and automatic area detection.
+- Google Public Data APIs (Planned) – For fetching real-time air quality and environmental data.
 ---
 
 ## 🚀 MVP Deployment
